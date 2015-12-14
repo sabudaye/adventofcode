@@ -1,7 +1,7 @@
 defmodule Day2 do
   def ex1(input) do
     input
-      |> String.split(:erlang.iolist_to_binary([10]), trim: true)
+      |> String.split("\n", trim: true)
       |> Enum.reduce(0, &_reducer/2)
   end
 
