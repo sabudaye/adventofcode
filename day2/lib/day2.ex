@@ -2,13 +2,11 @@ defmodule Day2 do
   def ex1(input) do
     input
       |> String.split("\n", trim: true)
+      |> Stream.map(&parse/1)
       |> Enum.reduce(0, &_reducer1/2)
   end
 
-  defp _reducer1(input, acc) do
-    [length, width, height] = String.split(input, "x", trim: true)
-    [l, w, h] = Enum.map([length, width, height], &String.to_integer &1)
-
+  defp _reducer1([l, w, h], acc) do
     acc + surface_area(l, w, h) + smallest_side_square(l, w, h)
   end
 
@@ -23,13 +21,16 @@ defmodule Day2 do
   def ex2(input) do
     input
       |> String.split("\n", trim: true)
+      |> Stream.map(&parse/1)
       |> Enum.reduce(0, &_reducer2/2)
   end
 
-  defp _reducer2(input, acc) do
-    [length, width, height] = String.split(input, "x", trim: true)
-    [l, w, h] = Enum.map([length, width, height], &String.to_integer &1)
+  defp parse(line) do
+    [length, width, height] = String.split(line, "x", trim: true)
+    Enum.map([length, width, height], &String.to_integer &1)
+  end
 
+  defp _reducer2([l, w, h], acc) do
     acc + l * w * h + Enum.min(distances([{:l, l}, {:w, w}, {:h, h}]))
   end
 
